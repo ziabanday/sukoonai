@@ -1,0 +1,7 @@
+id: gad7
+title: Generalized Anxiety Disorder-7
+scoring: sum
+thresholds: { mild: 5, moderate: 10, severe: 15 }
+questions:
+  - { id: q1, text: "Feeling nervous, anxious, or on edge", choices: [0,1,2,3] }
+# … add q2–q7 similarly

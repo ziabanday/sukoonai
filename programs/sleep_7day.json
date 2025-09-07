@@ -1,0 +1,52 @@
+{
+  "id": "sleep_7day",
+  "name": "7-Day Sleep Wellness",
+  "duration_days": 7,
+  "sources": [
+    {
+      "name": "MedlinePlus - Sleep Health",
+      "url": "https://medlineplus.gov/sleep.html"
+    },
+    {
+      "name": "WHO Sleep Guidance",
+      "url": "https://www.who.int/health-topics/sleep"
+    }
+  ],
+  "steps": [
+    {
+      "id": "day1",
+      "en": "Day 1: Go to bed at the same time tonight. Try to keep a fixed sleep schedule.",
+      "ur": "Din 1: Aaj raat aik hi waqt par soyen. Koshish karein ke neend ka waqat muqarrar ho."
+    },
+    {
+      "id": "day2",
+      "en": "Day 2: Avoid caffeine after 6 PM to improve sleep quality.",
+      "ur": "Din 2: 6 bajay ke baad caffeine (chai/coffee) se parhez karein taake neend behtar ho."
+    },
+    {
+      "id": "day3",
+      "en": "Day 3: Dim the lights 1 hour before bed to signal your body to rest.",
+      "ur": "Din 3: Sone se 1 ghanta pehle roshni kam karein, jis se jism ko araam ka ishara mile."
+    },
+    {
+      "id": "day4",
+      "en": "Day 4: Do light stretching or deep breathing before sleep.",
+      "ur": "Din 4: Sone se pehle halki stretching ya gehri saans lein."
+    },
+    {
+      "id": "day5",
+      "en": "Day 5: Keep your phone away from bed. Reduce screen time before sleep.",
+      "ur": "Din 5: Mobile phone ko bistar se door rakhein. Sone se pehle screen time kam karein."
+    },
+    {
+      "id": "day6",
+      "en": "Day 6: Write down your thoughts in a small journal before bed.",
+      "ur": "Din 6: Sone se pehle apne khayalat aik chhoti diary mein likh lein."
+    },
+    {
+      "id": "day7",
+      "en": "Day 7: Reflect on your week. Which practice helped you the most?",
+      "ur": "Din 7: Apne haftay ka jaiza lein. Konsi aadat ne sab se zyada madad ki?"
+    }
+  ]
+}

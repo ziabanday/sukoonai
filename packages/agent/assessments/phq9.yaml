@@ -1,0 +1,16 @@
+id: phq9
+title: Patient Health Questionnaire-9
+scoring: sum
+thresholds:
+  mild: 5
+  moderate: 10
+  moderately_severe: 15
+  severe: 20
+questions:
+  - id: q1
+    text: "Little interest or pleasure in doing things"
+    choices: [0,1,2,3]
+  - id: q2
+    text: "Feeling down, depressed, or hopeless"
+    choices: [0,1,2,3]
+# … add q3–q9 similarly

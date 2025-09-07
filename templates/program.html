@@ -1,0 +1,130 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width" />
+  <title>SukoonAI Wellness Programs</title>
+
+  <!-- Favicon -->
+  <link rel="icon" type="image/png" href="/static/favicon.png" />
+
+  <style>
+    body {
+      font-family: system-ui, Arial, sans-serif;
+      max-width: 760px;
+      margin: 24px auto;
+      padding: 0 12px;
+    }
+    .brand {
+      display: flex;
+      align-items: center;
+      margin: 8px 0 16px 0;
+    }
+    .logo {
+      height: 56px;
+      width: auto;
+      display: block;
+    }
+    @media (max-width: 480px) {
+      .logo { height: 44px; }
+    }
+    .card {
+      border: 1px solid #eee;
+      border-radius: 12px;
+      padding: 16px;
+      box-shadow: 0 1px 4px rgba(0,0,0,.04);
+    }
+    .btn {
+      padding: 8px 14px;
+      border-radius: 8px;
+      border: 1px solid #ddd;
+      cursor: pointer;
+      margin-top: 8px;
+    }
+    pre {
+      white-space: pre-wrap;
+      background: #f9f9f9;
+      padding: 12px;
+      border-radius: 8px;
+    }
+    textarea {
+      width: 100%;
+      margin-top: 8px;
+      padding: 8px;
+      border-radius: 8px;
+      border: 1px solid #ddd;
+    }
+    select, input {
+      margin: 8px 0;
+      padding: 8px;
+      border-radius: 8px;
+      border: 1px solid #ddd;
+      width: 100%;
+    }
+  </style>
+</head>
+<body>
+  <header class="brand">
+    <img class="logo" src="/static/SukoonAI-Logo-Final.png" alt="SukoonAI — Mental Wellness Agent" />
+  </header>
+
+  <h1>🌿 SukoonAI Wellness</h1>
+
+  <div class="card">
+    <label>User ID</label>
+    <input id="uid" value="demo_user" />
+
+    <label>Program</label>
+    <select id="pid"></select>
+
+    <button class="btn" onclick="enroll()">Start/Resume</button>
+
+    <label>Reflection (optional)</label>
+    <textarea id="reflect" placeholder="How are you feeling? (checked for crisis)"></textarea>
+
+    <button class="btn" onclick="nextStep()">Next Step</button>
+
+    <h3>Response</h3>
+    <pre id="out"></pre>
+  </div>
+
+  <script>
+    async function loadPrograms(){
+      const res = await fetch('/api/program/list');
+      const data = await res.json();
+      const sel = document.getElementById('pid');
+      sel.innerHTML = '';
+      (data.programs || []).forEach(p => {
+        const opt = document.createElement('option');
+        opt.value = p.id;
+        opt.textContent = `${p.title} (${p.days} days)`;
+        sel.appendChild(opt);
+      });
+    }
+    async function enroll(){
+      const body = {user_id: uid.value, program_id: pid.value};
+      await fetch('/api/program/enroll',{
+        method:'POST',
+        headers:{'Content-Type':'application/json'},
+        body: JSON.stringify(body)
+      });
+      out.textContent = '✅ Enrolled. Click "Next Step" to begin.';
+    }
+    async function nextStep(){
+      const body = {
+        user_id: uid.value,
+        program_id: pid.value,
+        user_message: reflect.value || null
+      };
+      const res = await fetch('/api/program/next',{
+        method:'POST',
+        headers:{'Content-Type':'application/json'},
+        body: JSON.stringify(body)
+      });
+      const data = await res.json();
+      out.textContent = data.message || '...';
+    }
+    loadPrograms();
+  </script>
+</body>
+</html>

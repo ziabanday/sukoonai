@@ -1,0 +1,69 @@
+# --- Python bytecode & extensions
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+*.so
+*.dylib
+
+# --- Virtualenvs
+.venv/
+.venv*/
+env/
+venv/
+
+# --- Logs
+*.log
+
+# --- Test/coverage caches
+.pytest_cache/
+.cache/
+.coverage
+coverage.xml
+htmlcov/
+
+# --- Type checker / linters
+.mypy_cache/
+.pytype/
+.ruff_cache/
+
+# --- Build artifacts
+build/
+dist/
+*.egg-info/
+
+# --- Notebooks
+.ipynb_checkpoints/
+
+# --- OS cruft
+.DS_Store
+Thumbs.db
+
+# --- Secrets / env files (keep the example tracked)
+.env
+.env.*
+!.env.example
+.envrc
+.python-version
+
+# --- Local databases
+*.db
+*.sqlite3
+
+# --- App data (do not commit scraped/raw/derived data or indices)
+data/raw/
+data/processed/
+data/indices/
+packages/rag/data/raw/
+packages/rag/data/index/
+
+# --- Web/node (only if present)
+node_modules/
+web/node_modules/
+web/.next/
+web/dist/
+web/build/
+
+# --- IDE
+.vscode/
+.idea/

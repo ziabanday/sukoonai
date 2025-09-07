@@ -1,0 +1,6 @@
+timestamp,file,output_file,raw_words,cleaned_words,removed_words
+2025-09-03 12:29:33,medlineplus_anxiety.html,medlineplus_anxiety.md,1720,1459,261
+2025-09-03 12:29:33,medlineplus_depression.html,medlineplus_depression.md,2205,1952,253
+2025-09-03 12:29:33,medlineplus_stress.html,medlineplus_stress.md,1243,921,322
+2025-09-03 12:29:33,who_depression.html,who_depression.md,1687,1295,392
+2025-09-03 12:29:33,who_mental_health.html,who_mental_health.md,1544,1153,391

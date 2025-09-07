@@ -1,0 +1,21 @@
+{
+  "breathing_4_2_6": {
+    "labels": ["anxiety", "stress", "panic"],
+    "steps_en": ["Inhale 4s", "Hold 2s", "Exhale 6s", "Repeat 6–8 cycles"],
+    "steps_ur_roman": [
+      "4 second mein saans lein",
+      "2 second rokain",
+      "6 second mein chhorain",
+      "6–8 dafa dohrain"
+    ]
+  },
+  "sleep_hygiene_basics": {
+    "labels": ["sleep"],
+    "steps_en": ["Consistent bedtime", "No screens 60m before bed", "Cool, dark room"],
+    "steps_ur_roman": [
+      "Har raat aik waqt sone ki koshish",
+      "Sone se 60 minute pehle screens band",
+      "Kambrey ko thanda aur andhera rakhein"
+    ]
+  }
+}

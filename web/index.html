@@ -1,0 +1,29 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>SukoonAI — Medical Evidence Navigator (MVP)</title>
+  <link rel="stylesheet" href="/static/styles.css" />
+</head>
+<body>
+  <main class="container">
+    <h1>SukoonAI</h1>
+    <p class="subtitle">Medical Evidence Navigator (MVP) • FastAPI + LangChain + FAISS</p>
+
+    <form id="chat-form">
+      <input id="question" type="text" placeholder="Ask a health question..." required />
+      <button type="submit">Ask</button>
+    </form>
+
+    <section id="response" class="card" hidden>
+      <h2>Answer</h2>
+      <div id="answer"></div>
+      <h3>Sources</h3>
+      <ul id="sources"></ul>
+    </section>
+  </main>
+
+  <script src="/static/script.js"></script>
+</body>
+</html>

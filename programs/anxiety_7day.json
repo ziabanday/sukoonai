@@ -1,0 +1,52 @@
+{
+  "id": "anxiety_7day",
+  "name": "7-Day Anxiety Relief",
+  "duration_days": 7,
+  "sources": [
+    {
+      "name": "MedlinePlus - Anxiety",
+      "url": "https://medlineplus.gov/anxiety.html"
+    },
+    {
+      "name": "WHO Self-care Guidance",
+      "url": "https://www.who.int/health-topics/mental-health"
+    }
+  ],
+  "steps": [
+    {
+      "id": "day1",
+      "en": "Day 1: Take 5 minutes for slow deep breathing. Inhale 4s, hold 2s, exhale 6s.",
+      "ur": "Din 1: 5 minute gehri saans lein. 4 second mein saans lein, 2 second rokain, 6 second mein chhorein."
+    },
+    {
+      "id": "day2",
+      "en": "Day 2: Write down 3 things you are grateful for today.",
+      "ur": "Din 2: Aaj ki teen cheezein likhein jin ke liye shukar guzar hain."
+    },
+    {
+      "id": "day3",
+      "en": "Day 3: Take a 10-minute walk and notice your surroundings.",
+      "ur": "Din 3: 10 minute ki sair karein aur apne irgird ke manazir ko dekhein."
+    },
+    {
+      "id": "day4",
+      "en": "Day 4: Drink water slowly, focusing on each sip.",
+      "ur": "Din 4: Pani dheere dheere piyein, har sip par tawajjo dein."
+    },
+    {
+      "id": "day5",
+      "en": "Day 5: Call or message a trusted friend to share how you feel.",
+      "ur": "Din 5: Kisi dost ko phone karein ya paigham bhejein aur apni feelings share karein."
+    },
+    {
+      "id": "day6",
+      "en": "Day 6: Do a simple stretching routine for 5 minutes.",
+      "ur": "Din 6: 5 minute ka simple stretching routine karein."
+    },
+    {
+      "id": "day7",
+      "en": "Day 7: Reflect on your progress. Note one habit you want to continue.",
+      "ur": "Din 7: Apni taraqqi par ghour karein. Aik aadat likhein jo aap jari rakhna chahte hain."
+    }
+  ]
+}

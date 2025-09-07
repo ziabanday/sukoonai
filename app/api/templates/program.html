@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>SukoonAI — Mental Wellness Agent</title>
+  <link rel="icon" type="image/png" href="/static/favicon.png" />
+
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 20px;
+      background-color: #f9f9f9;
+      text-align: center;
+    }
+    header {
+      margin-bottom: 20px;
+    }
+    .logo {
+      width: 180px;
+      margin-top: 20px;
+    }
+    .card {
+      background: #fff;
+      border-radius: 10px;
+      padding: 20px;
+      max-width: 500px;
+      margin: 0 auto;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+      text-align: left;
+    }
+    label {
+      display: block;
+      margin: 10px 0 5px;
+      font-weight: bold;
+    }
+    input, select, textarea {
+      width: 100%;
+      padding: 8px;
+      margin-bottom: 10px;
+      border-radius: 5px;
+      border: 1px solid #ccc;
+      font-size: 14px;
+    }
+    button {
+      background-color: #4CAF50;
+      color: white;
+      border: none;
+      padding: 10px 20px;
+      margin: 5px 0;
+      border-radius: 5px;
+      cursor: pointer;
+      font-size: 14px;
+    }
+    button:hover {
+      background-color: #45a049;
+    }
+    h3 {
+      margin-top: 20px;
+    }
+    pre {
+      background: #f4f4f4;
+      padding: 10px;
+      border-radius: 5px;
+      text-align: left;
+      white-space: pre-wrap;
+      word-wrap: break-word;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <img class="logo" src="/static/Logo-SukoonAI-Final.png" alt="SukoonAI — Mental Wellness Agent" />
+  </header>
+
+  <div class="card">
+    <label>User ID</label>
+    <input id="uid" value="demo_user" />
+
+    <label>Program</label>
+    <select id="pid"></select>
+
+    <button class="btn" onclick="enroll()">Start/Resume</button>
+
+    <label>Reflection (optional)</label>
+    <textarea id="reflect" placeholder="How are you feeling? (checked for crisis)"></textarea>
+
+    <button class="btn" onclick="nextStep()">Next Step</button>
+
+    <h3>Response</h3>
+    <pre id="out"></pre>
+  </div>
+
+  <script>
+    async function enroll() {
+      const uid = document.getElementById("uid").value;
+      const pid = document.getElementById("pid").value;
+      const response = await fetch("/enroll", {
+        method: "POST",
+        headers: {"Content-Type": "application/json"},
+        body: JSON.stringify({ uid, pid })
+      });
+      const result = await response.json();
+      document.getElementById("out").textContent = JSON.stringify(result, null, 2);
+    }
+
+    async function nextStep() {
+      const uid = document.getElementById("uid").value;
+      const pid = document.getElementById("pid").value;
+      const reflection = document.getElementById("reflect").value;
+      const response = await fetch("/next", {
+        method: "POST",
+        headers: {"Content-Type": "application/json"},
+        body: JSON.stringify({ uid, pid, reflection })
+      });
+      const result = await response.json();
+      document.getElementById("out").textContent = JSON.stringify(result, null, 2);
+    }
+  </script>
+</body>
+</html>

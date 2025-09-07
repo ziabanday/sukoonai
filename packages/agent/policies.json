@@ -1,0 +1,9 @@
+{
+  "citation_required": true,
+  "confidence_gating": { "min_confidence": 0.55, "fallback": "brief_safe" },
+  "crisis_keywords": ["suicide", "kill myself", "hurt myself", "self harm"],
+  "escalation": {
+    "action": "show_hotlines_and_grounding",
+    "region_default": "PK"
+  }
+}

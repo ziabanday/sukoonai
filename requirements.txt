@@ -1,0 +1,27 @@
+# Core framework
+fastapi>=0.111.0
+uvicorn[standard]>=0.35.0
+jinja2>=3.1.2
+pydantic>=2.0
+
+# LangChain ecosystem
+langchain>=0.2.0
+langchain-core>=0.2.0
+langchain-community>=0.2.0
+langchain-openai>=0.1.0
+
+# Vectorstore
+faiss-cpu>=1.7.4
+
+# Supabase (for pgvector integration later)
+supabase>=2.5.0
+postgrest>=0.10.6
+gotrue>=2.5.0
+
+# Monitoring and testing
+pytest>=8.0.0
+httpx>=0.27.0
+requests>=2.32.0
+
+# Optional (for logging / debugging)
+python-dotenv>=1.0.1

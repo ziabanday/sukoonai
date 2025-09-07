@@ -1,0 +1,392 @@
+============================================================
+Timestamp: 2025-09-03T22:28:43.334674
+Query: What is anxiety?
+
+🧠 SukoonAI Bilingual Answer
+
+[English]
+Anxiety is a feeling of worry or fear. It can make you feel:  
+- Sweaty  
+- Restless  
+- Tense  
+- Have a fast heartbeat  
+
+It's a normal response to stress, like when you're facing a tough situation at work or before a test. There are different types of anxiety disorders, such as:  
+- Generalized Anxiety Disorder (GAD)  
+- Phobias  
+
+The exact cause of anxiety isn't clear, but it can be influenced by:  
+- Genetics  
+- Brain chemistry  
+- Stress  
+- Your environment  
+
+(Source: MedlinePlus / WHO)
+
+[Roman Urdu]
+Anxiety ka matlab hai fikar ya dar ka ehsaas. Is se aap mehsoos kar sakte hain:  
+- Paseena aana  
+- Bechain hona  
+- Tension mehsoos karna  
+- Dil ki dhadkan tez hona  
+
+Yeh ek normal reaction hai jab aap kisi mushkil surat-e-haal ka samna karte hain, jaise kaam par ya test se pehle. Anxiety ke mukhtalif types hain, jaise:  
+- Generalized Anxiety Disorder (GAD)  
+- Phobias  
+
+Anxiety ka asal sabab clear nahi hai, lekin yeh cheezein is par asar daal sakti hain:  
+- Genetics  
+- Dimaag ki chemistry  
+- Stress  
+- Aapka mahol  
+
+(Source: MedlinePlus / WHO)
+(Source: MedlinePlus / WHO)
+============================================================
+
+============================================================
+Timestamp: 2025-09-03T23:16:06.008162
+Query: Depression ki alamat kya hain?
+
+🧠 SukoonAI Bilingual Answer
+
+[English]
+Depression can show up in different ways. Here are some common signs:  
+- Feeling sad or hopeless most of the time  
+- Losing interest in things you used to enjoy  
+- Changes in sleep (sleeping too much or too little)  
+- Changes in appetite (eating too much or too little)  
+- Feeling tired or having low energy  
+- Trouble concentrating or making decisions  
+- Feeling irritable or angry  
+- Sometimes, people may have physical symptoms like headaches or stomachaches  
+
+If you notice these signs, it’s important to talk to someone who can help.  
+
+(Source: MedlinePlus / WHO)
+
+[Roman Urdu]
+Depression ki kuch aam alamat yeh hain:  
+- Zyada tar udasi ya be-hopee mehsoos karna  
+- Jo cheezein pehle pasand thi, un mein dilchaspi khatam ho jana  
+- Neend mein tabdeeli (zyada ya kam sona)  
+- Khurak mein tabdeeli (zyada ya kam khana)  
+- Thakan ya kamzor energy mehsoos karna  
+- Sochne ya faislay karne mein mushkil hona  
+- Chid-chida ya gussa hona  
+- Kabhi kabhi jism mein dard ya takleef mehsoos hona  
+
+Agar aap in alamat ko mehsoos karte hain, to kisi se baat karna zaroori hai jo madad kar sake.  
+
+(Source: MedlinePlus / WHO)
+(Source: MedlinePlus / WHO)
+============================================================
+
+============================================================
+Timestamp: 2025-09-04T00:27:29.929840
+Query: What is anxiety?
+
+🧠 SukoonAI Bilingual Answer
+
+[English] Anxiety is that feeling of fear or unease that can sometimes creep up on us. It might make your heart race, cause you to sweat, or leave you feeling restless. It's totally normal to feel anxious in certain situations, like before a big test or when facing a tough decision at work. But when those feelings become overwhelming and happen almost every day, it might be a sign of an anxiety disorder.
+
+[Roman Urdu] Anxiety wo ehsaas hai jo kabhi kabhi humein dar ya bechaini ka shikaar kar deta hai. Is se aapka dil tez chal sakta hai, aap paseena pasina ho sakte hain, ya bechain mehsoos kar sakte hain. Yeh bilkul normal hai jab aap kisi mushkil ka samna kar rahe hote hain, jaise kisi imtihan se pehle ya kaam par kisi mushkil faislay ke waqt. Lekin jab yeh feelings itni zyada ho jayein ke rozana mehsoos hon, toh yeh anxiety disorder ka nishan ho sakta hai. (Source: MedlinePlus / WHO)
+============================================================
+
+============================================================
+Timestamp: 2025-09-04T00:28:10.166355
+Query: Depression ki alamat kya hain?
+
+🧠 SukoonAI Bilingual Answer
+
+[English] Depression can show up in different ways, and it’s not just about feeling sad. You might notice changes in your sleep, like sleeping too much or not enough, or you could feel really tired all the time. Sometimes, people might get irritable or angry instead of feeling sad, especially men. It can also affect how you think and handle daily life, making everything feel a bit heavier. 
+
+[Roman Urdu] Depression ki alamat har shakhs mein alag hoti hain, aur sirf udasi tak mehsoos nahi hoti. Aapko neend mein tabdeeli mehsoos ho sakti hai, jaise zyada ya kam sona, ya phir aap hamesha thake hue mehsoos karte hain. Kabhi kabhi log udas hone ki bajaye gusse ya chidhchidhahat ka izhar karte hain, khaaskar mardon mein. Yeh aapki soch aur rozana zindagi par bhi asar daal sakta hai, sab kuch thoda bhari mehsoos hota hai. (Source: MedlinePlus / WHO)
+============================================================
+
+============================================================
+Timestamp: 2025-09-04T00:47:44.922677
+Query: What is anxiety?
+
+🧠 SukoonAI Bilingual Answer
+
+[English]  
+Anxiety is a feeling of fear and uneasiness that many people experience. It can make you feel restless, sweaty, and even cause your heart to race. Sometimes, it’s a normal response to stress, like when you’re facing a tough situation at work or before an important test. While everyone feels anxious from time to time, some people may experience it more intensely or frequently. Understanding your feelings can be a good first step in managing anxiety.
+
+(Source: MedlinePlus / WHO)  
+This is general wellness info, not medical care. If you feel unsafe, please seek help.
+
+[Roman Urdu]  
+Anxiety ek aisi feeling hai jo dar aur bechaini ka ehsaas dilati hai. Yeh aapko bechain, paseena paseena kar sakti hai, aur dil ki dhadkan tez kar sakti hai. Kabhi kabhi yeh stress ka normal reaction hota hai, jaise jab aap kisi mushkil kaam ya important test ka samna karte hain. Har koi kabhi na kabhi anxious mehsoos karta hai, lekin kuch logon ko yeh zyada intense ya frequent hota hai. Apne jazbat ko samajhna anxiety ko manage karne ka pehla qadam ho sakta hai.
+
+(Source: MedlinePlus / WHO)  
+Yeh aam wellness maloomat hai, tibbi mashwara nahi. Agar aap khud ko unsafe mehsoos karen to madad hasil karen.
+============================================================
+
+============================================================
+Timestamp: 2025-09-04T00:48:39.426920
+Query: Depression ki alamat kya hain?
+
+🧠 SukoonAI Bilingual Answer
+
+[English]  
+Depression can show up in different ways. You might feel sad or irritable for a long time, not just a few days. Some people may feel tired all the time or lose interest in things they used to enjoy. It's also common to have trouble sleeping or to sleep too much. If you notice these signs in yourself or someone else, it’s important to talk about it and seek support. 
+
+(Source: MedlinePlus / WHO)  
+This is general wellness info, not medical care. If you feel unsafe, please seek help.
+
+[Roman Urdu]  
+Depression ki alamat alag alag tarikon se samne aa sakti hain. Aap kuch dinon se zyada udas ya chidh chidhay mehsoos kar sakte hain. Kuch log hamesha thake hue mehsoos karte hain ya un cheezon mein dilchaspi khote hain jo pehle pasand thi. Neend bhi kharab ho sakti hai ya kabhi kabhi zyada neend aati hai. Agar aap ya aapke aas paas kisi ko yeh signs nazar aate hain, to is bare mein baat karna aur madad lena zaroori hai. 
+
+(Source: MedlinePlus / WHO)  
+Yeh aam wellness maloomat hai, tibbi mashwara nahi. Agar aap khud ko unsafe mehsoos karen to madad hasil karen.
+============================================================
+
+============================================================
+Timestamp: 2025-09-04T00:56:17.872588
+Query: What is anxiety?
+
+🧠 SukoonAI Bilingual Answer
+
+[English]  
+Anxiety is a feeling of fear and uneasiness. It can make you feel restless, sweaty, and even cause your heart to race. It's a normal response to stress, like when you're facing a tough situation at work or before an exam. While everyone experiences anxiety at times, some people may feel it more intensely or frequently. Understanding it can help you manage those feelings better. (Source: MedlinePlus / WHO) This is general wellness info, not medical care. If you feel unsafe, please seek help.
+
+[Roman Urdu]  
+Anxiety ek aisi feeling hai jo dar aur bechaini ka ehsaas dilati hai. Is se aap bechain, paseena paseena ho sakte hain, aur dil ki dhadkan tez ho sakti hai. Yeh stress ka ek normal jawab hai, jaise jab aap kisi mushkil kaam ya test ka samna karte hain. Har koi kabhi na kabhi anxiety mehsoos karta hai, lekin kuch logon ko yeh zyada intense ya frequent hoti hai. Isay samajhna aapko in feelings ko behtar tarike se manage karne mein madad de sakta hai. (Source: MedlinePlus / WHO) Yeh aam wellness maloomat hai, tibbi mashwara nahi. Agar aap khud ko unsafe mehsoos karen to madad hasil karen.
+============================================================
+
+============================================================
+Timestamp: 2025-09-04T00:57:08.586406
+Query: Depression ki alamat kya hain?
+
+🧠 SukoonAI Bilingual Answer
+
+[English]  
+Depression can show up in different ways. You might feel sad or irritable for a long time, not just a few days. Some people may feel tired all the time or lose interest in things they used to enjoy. It's also common to have trouble sleeping or to sleep too much. Remember, if you're feeling overwhelmed, it's important to talk to someone who can help. (Source: MedlinePlus / WHO) This is general wellness info, not medical care. If you feel unsafe, please seek help.
+
+[Roman Urdu]  
+Depression ki alamat alag alag tarikon se samne aa sakti hain. Aksar log kuch dinon se zyada udas ya chidh chidhay mehsoos karte hain. Kuch log hamesha thake hue mehsoos karte hain ya un cheezon mein dilchaspi khote hain jo pehle unhein pasand thi. Neend bhi kharab ho sakti hai ya kabhi kabhi zyada neend aati hai. Agar aapko lagta hai ke aap bohot pareshan hain, to kisi se baat karna zaroori hai. (Source: MedlinePlus / WHO) Yeh aam wellness maloomat hai, tibbi mashwara nahi. Agar aap khud ko unsafe mehsoos karen to madad hasil karen.
+============================================================
+
+============================================================
+Timestamp: 2025-09-04T01:04:11.747244
+Query: What is anxiety?
+
+🧠 SukoonAI Bilingual Answer
+
+[English]  
+Anxiety is a feeling of fear and uneasiness. It can make you feel restless, sweaty, and even cause your heart to race. It's a normal response to stress, like when you're facing a tough situation at work or before an exam. While everyone experiences anxiety at times, some people may feel it more intensely or frequently. Understanding it can help you manage those feelings better.  
+(Source: MedlinePlus / WHO)  
+This is general wellness info, not medical care. If you feel unsafe, please seek help.  
+
+[Roman Urdu]  
+Anxiety ek aisi feeling hai jo dar aur bechaini ka ehsaas dilati hai. Is se aap bechain, paseena paseena ho sakte hain, aur dil ki dhadkan tez ho sakti hai. Yeh stress ka ek normal jawab hai, jaise jab aap kisi mushkil kaam ya test ka samna karte hain. Har koi kabhi na kabhi anxiety mehsoos karta hai, lekin kuch logon ko yeh zyada intense ya frequent hoti hai. Isay samajhna aapko in feelings ko behtar tarike se manage karne mein madad de sakta hai.  
+(Source: MedlinePlus / WHO)  
+Yeh aam wellness maloomat hai, tibbi mashwara nahi. Agar aap khud ko unsafe mehsoos karen to madad hasil karen.
+============================================================
+
+============================================================
+Timestamp: 2025-09-04T01:05:30.273957
+Query: Depression ki alamat kya hain?
+
+🧠 SukoonAI Bilingual Answer
+
+[English]  
+Depression can show up in different ways. You might feel sad or irritable for a long time, not just a few days. Some people may feel tired all the time or lose interest in things they used to enjoy. It's also common to have trouble sleeping or to sleep too much. Remember, everyone experiences it differently, and it's okay to seek help if you need it.  
+(Source: MedlinePlus / WHO)  
+This is general wellness info, not medical care. If you feel unsafe, please seek help.  
+
+[Roman Urdu]  
+Depression alag alag tareeqon se zahir hota hai. Aap kuch dinon se zyada udaas ya chidh chidhay mehsoos kar sakte hain. Kuch log hamesha thake hue mehsoos karte hain ya un cheezon mein dilchaspi kho dete hain jo pehle pasand thi. Neend mein bhi masla ho sakta hai, ya phir aap zyada so sakte hain. Har kisi ka tajurba alag hota hai, aur agar aapko madad ki zaroorat hai to ye bilkul theek hai.  
+(Source: MedlinePlus / WHO)  
+Yeh aam wellness maloomat hai, tibbi mashwara nahi. Agar aap khud ko unsafe mehsoos karen to madad hasil karen.
+============================================================
+
+============================================================
+Timestamp: 2025-09-04T01:22:54.980475
+Query: What is anxiety?
+
+🧠 SukoonAI Bilingual Answer
+
+[English]  
+Anxiety is a feeling of fear and uneasiness. It can make you sweat, feel restless, and even cause a racing heartbeat. It's a normal response to stress, like when you're facing a tough situation at work or before an exam. Many people experience anxiety, and it can vary in intensity. Understanding it can help you manage those feelings better.  
+
+(Source: MedlinePlus / WHO)  
+This is general wellness info, not medical care. If you feel unsafe, please seek help.  
+
+[Roman Urdu]  
+Anxiety ek aisi feeling hai jo dar aur bechaini ka ehsaas dilati hai. Yeh aapko paseena aane, bechain mehsoos karne, aur dil ki dhadkan tez hone ka sabab ban sakti hai. Yeh stress ka ek normal jawab hai, jaise jab aap kisi mushkil kaam ya exam ka samna karte hain. Bohat se log anxiety mehsoos karte hain, aur yeh har kisi ke liye alag hoti hai. Isay samajhna aapko in feelings ko behtar tarike se sambhalne mein madad de sakta hai.  
+
+(Source: MedlinePlus / WHO)  
+Yeh aam wellness maloomat hai, tibbi mashwara nahi. Agar aap khud ko unsafe mehsoos karen to madad hasil karen.
+============================================================
+
+============================================================
+Timestamp: 2025-09-04T01:23:55.369714
+Query: Depression ki alamat kya hain?
+
+🧠 SukoonAI Bilingual Answer
+
+[English]  
+Depression can show up in different ways. You might feel sad or irritable for a long time, not just a few days. Some people may act out or feel excessively sleepy. It's also common for men to express their feelings differently, sometimes appearing angry instead of sad. If you notice these signs in yourself or someone else, it’s important to talk about it. 
+
+(Source: MedlinePlus / WHO)  
+This is general wellness info, not medical care. If you feel unsafe, please seek help.  
+
+[Roman Urdu]  
+Depression alag alag tareeqon se zahir hota hai. Aap kuch dinon se zyada udaas ya chidh chidhay mehsoos kar sakte hain. Kuch log zyada neend ya gussa bhi kar sakte hain. Mardon ka apne jazbat dikhane ka tareeqa bhi alag hota hai, kabhi kabhi wo udaas hone ki bajaye gusse mein aate hain. Agar aap ya kisi aur ko yeh asraat mehsoos ho rahe hain, to is bare mein baat karna zaroori hai. 
+
+(Source: MedlinePlus / WHO)  
+Yeh aam wellness maloomat hai, tibbi mashwara nahi. Agar aap khud ko unsafe mehsoos karen to madad hasil karen.
+============================================================
+
+============================================================
+Timestamp: 2025-09-04T01:32:49.364590
+Query: What is anxiety?
+
+🧠 SukoonAI Bilingual Answer
+
+[English]  
+Anxiety is a feeling of fear and uneasiness. It can make you feel restless, sweaty, and even cause your heart to race. It's a normal response to stress, like when you're facing a tough situation at work or before an exam. Many people experience anxiety, and it can vary from mild to more intense feelings. Understanding it can help you manage those feelings better.  
+(Source: MedlinePlus / WHO)  
+This is general wellness info, not medical care. If you feel unsafe, please seek help.  
+
+[Roman Urdu]  
+Anxiety yaani ghabrat ek aisi feeling hai jo dar aur bechaini se bhari hoti hai. Yeh aapko bechain, paseena paseena kar sakti hai, aur dil ki dhadkan tez kar sakti hai. Yeh stress ka ek normal jawab hai, jaise jab aap kisi mushkil kaam ya exam ka samna karte hain. Bohot logon ko anxiety hoti hai, aur yeh halka se lekar zyada intense tak ho sakti hai. Isay samajhna aapko in feelings ko behtar tarike se sambhalne mein madad de sakta hai.  
+(Source: MedlinePlus / WHO)  
+Yeh aam wellness maloomat hai, tibbi mashwara nahi. Agar aap khud ko unsafe mehsoos karen to madad hasil karen.
+============================================================
+
+============================================================
+Timestamp: 2025-09-04T01:33:49.833608
+Query: Depression ki alamat kya hain?
+
+🧠 SukoonAI Bilingual Answer
+
+[English]  
+Depression can show up in different ways. You might feel sad or irritable for a long time, not just a few days. Some people may act out or feel excessively sleepy. It's also common for men to express their feelings differently, sometimes appearing angry instead of sad. Remember, it’s important to talk to someone if you’re feeling this way. 
+
+(Source: MedlinePlus / WHO)  
+This is general wellness info, not medical care. If you feel unsafe, please seek help.
+
+[Roman Urdu]  
+Depression ki alamat alag alag tarikon se samne aa sakti hain. Aap kuch dinon se zyada udaas ya chidh chidhay mehsoos kar sakte hain. Kuch log zyada neend ya gussa bhi karte hain. Aur yaad rahe, mardon ki feelings aksar alag hoti hain, wo kabhi kabhi udaas hone ki bajaye gussa dikhate hain. Agar aap aise mehsoos kar rahe hain, to kisi se baat karna zaroori hai. 
+
+(Source: MedlinePlus / WHO)  
+Yeh aam wellness maloomat hai, tibbi mashwara nahi. Agar aap khud ko unsafe mehsoos karen to madad hasil karen.
+============================================================
+
+============================================================
+Timestamp: 2025-09-04T01:45:51.086544
+Query: What is anxiety?
+
+🧠 SukoonAI Bilingual Answer
+
+[English]  
+Anxiety is a feeling of fear and uneasiness. It can make you sweat, feel restless, and even cause your heart to race. This reaction is normal, especially when facing stress, like a tough problem at work or before an exam. Many people experience anxiety in different situations, and it’s okay to feel this way sometimes. 
+
+(Source: MedlinePlus / WHO)  
+This is general wellness info, not medical care. If you feel unsafe, seek help.
+
+[Roman Urdu]  
+Anxiety ka matlab hai dar aur bechaini ka ehsaas. Yeh aapko paseena la sakta hai, bechain aur tense mehsoos karwa sakta hai, aur dil ki dhadkan tez kar sakta hai. Yeh bilkul normal hai, khaas taur par jab aap kisi mushkil ka samna kar rahe hote hain, jaise kaam par koi tough masla ya exam se pehle. Bohot log kabhi kabhi anxiety mehsoos karte hain, aur yeh bilkul theek hai. 
+
+(Source: MedlinePlus / WHO)  
+Yeh aam maloomat hai, tibbi mashwara nahi. Agar unsafe mehsoos karen to madad lein.
+============================================================
+
+============================================================
+Timestamp: 2025-09-04T01:50:44.954734
+Query: Depression ki alamat kya hain?
+
+🧠 SukoonAI Bilingual Answer
+
+[English]  
+Depression can show up in different ways. You might feel sad or irritable for a long time, not just a few days. Sometimes, people feel tired all the time or have trouble sleeping. It’s also common to lose interest in things you used to enjoy. If you notice these feelings lasting longer than usual, it might be helpful to talk to someone about it. 
+
+(Source: MedlinePlus / WHO)  
+This is general wellness info, not medical care. If you feel unsafe, seek help.
+
+[Roman Urdu]  
+Depression ki nishaniyan alag alag tarikon se samne aa sakti hain. Aapko kabhi kabhi udaasi ya chidh chidhahat mehsoos hoti hai, lekin agar yeh lambi muddat tak chale, to yeh kuch aur ho sakta hai. Kabhi kabhi log hamesha thake hue mehsoos karte hain ya neend nahi aati. Jo cheezen pehle pasand thi, unmein bhi dilchaspi khatam ho sakti hai. Agar aapko yeh feelings zyada waqt tak mehsoos hoti hain, to kisi se baat karna acha rahega. 
+
+(Source: MedlinePlus / WHO)  
+Yeh aam maloomat hai, tibbi mashwara nahi. Agar unsafe mehsoos karen to madad lein.
+============================================================
+
+============================================================
+Timestamp: 2025-09-04T02:08:16.050672
+Query: What is anxiety?
+
+🧠 SukoonAI Bilingual Answer
+
+[English]  
+Anxiety is a feeling of fear and unease. It can make you feel restless, sweaty, and your heart might race. This is a normal response to stress, like when you're facing a tough problem at work or before an exam. Many people experience anxiety in different situations, and it’s okay to feel this way sometimes. Just remember, you’re not alone in this.
+
+(Source: MedlinePlus / WHO)  
+This is general wellness info, not medical care. If you feel unsafe, seek help.
+
+[Roman Urdu]  
+Anxiety yaani ghabrat ek aisi feeling hai jo dar aur bechaini se bhari hoti hai. Yeh aapko bechain, paseena paseena kar sakti hai, aur dil ki dhadkan tez ho sakti hai. Yeh stress ka ek normal jawab hai, jaise jab aap kisi mushkil masle ka samna kar rahe hote hain ya exam se pehle. Bohot log is tarah ki ghabrat mehsoos karte hain, aur kabhi kabhi aisa hona bilkul theek hai. Bas, yaad rakhein, aap ismein akeli nahi hain.
+
+(Source: MedlinePlus / WHO)  
+Yeh aam maloomat hai, tibbi mashwara nahi. Agar unsafe mehsoos karen to madad lein.
+============================================================
+
+============================================================
+Timestamp: 2025-09-04T02:10:22.707027
+Query: Depression ki alamat kya hain?
+
+🧠 SukoonAI Bilingual Answer
+
+[English]  
+Depression can show up in different ways. You might feel sad or irritable for a long time, not just a few days. Sometimes, people feel tired all the time or lose interest in things they used to enjoy. It’s also common to have trouble sleeping or to sleep too much. If you notice these feelings, it’s important to talk to someone who can help. 
+
+(Source: MedlinePlus / WHO)  
+This is general wellness info, not medical care. If you feel unsafe, seek help.
+
+[Roman Urdu]  
+Depression ki nishaniyan alag alag tareeqon se samne aa sakti hain. Aapko kabhi kabhi udaasi ya chirchiraapan mehsoos hota hai, lekin yeh sirf kuch din nahi hota. Kabhi kabhi log hamesha thake hue mehsoos karte hain ya un cheezon mein dilchaspi khote hain jo pehle pasand thi. Neend bhi kharab ho sakti hai ya kabhi kabhi zyada neend aati hai. Agar aapko yeh feelings mehsoos hoti hain, toh kisi se baat karna acha rahega. 
+
+(Source: MedlinePlus / WHO)  
+Yeh aam maloomat hai, tibbi mashwara nahi. Agar unsafe mehsoos karen to madad lein.
+============================================================
+
+============================================================
+Timestamp: 2025-09-04T02:30:44.847115
+Query: What is anxiety?
+
+🧠 SukoonAI Bilingual Answer
+
+[English]  
+Anxiety is a feeling of fear and uneasiness. It can make you sweat, feel restless, and even cause your heart to race. This reaction is often normal, especially when facing stress, like a tough problem at work or before an exam. It’s important to remember that many people experience anxiety, and it can show up in different ways for everyone. 
+
+(Source: MedlinePlus / WHO)  
+This is general wellness info, not medical care. If you feel unsafe, seek help.
+
+[Roman Urdu]  
+Anxiety ka matlab hai dar aur bechaini ka ehsaas. Yeh aapko paseena, bechaini, aur dil ki dhadkan tez karne ka sabab ban sakta hai. Yeh aksar normal hota hai, khaas taur par jab aap kisi stress se guzar rahe hote hain, jaise kaam par mushkil masla ya exam se pehle. Yeh yaad rakhna zaroori hai ke bohot log anxiety mehsoos karte hain, aur yeh har kisi mein alag tareeqe se samne aata hai. 
+
+(Source: MedlinePlus / WHO)  
+Yeh aam maloomat hai, tibbi mashwara nahi. Agar unsafe mehsoos karen to madad lein.
+============================================================
+
+============================================================
+Timestamp: 2025-09-04T02:31:55.411583
+Query: Depression ki alamat kya hain?
+
+🧠 SukoonAI Bilingual Answer
+
+[English]  
+Depression can show up in different ways for different people. Some might feel really sad or irritable for a long time. Others may feel tired all the time or lose interest in things they used to enjoy. It’s also common to have trouble sleeping or to sleep too much. If you notice these feelings, it’s important to talk to someone who can help. 
+
+(Source: MedlinePlus / WHO)  
+This is general wellness info, not medical care. If you feel unsafe, seek help.
+
+[Roman Urdu]  
+Depression har insaan mai mukhtalif andaaz mai samne aata hai. Kuch log bohot udaas ya chirchira mehsoos karte hain, aur yeh lambi muddat tak chal sakta hai. Dusre log hamesha thake hue rehte hain ya un cheezon mai dilchaspi khote hain jo pehle pasand thi. Neend bhi kharab ho sakti hai ya kabhi kabhi zyada neend aati hai. Agar aapko aise ehsaas hotay hain, to kisi se baat karna acha rahega. 
+
+(Source: MedlinePlus / WHO)  
+Yeh aam maloomat hai, tibbi mashwara nahi. Agar unsafe mehsoos karen to madad lein.
+============================================================
+
