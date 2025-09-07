@@ -12,7 +12,7 @@ mkdir -p scripts tests web/static notebooks
 
 # Touch placeholder files (only if not exist)
 [ -f .env.example ] || cat > .env.example <<'ENV'
-OPENAI_API_KEY=sk-...
+OPENAI_API_KEY=<YOUR_OPENAI_API_KEY>
 OPENAI_MODEL=gpt-4o-mini
 EMBEDDING_MODEL=text-embedding-3-large
 LOG_LEVEL=INFO

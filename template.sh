@@ -17,8 +17,8 @@ mkdir -p scripts tests web/static notebooks infra docs packages sandbox
 
 # --- Required ---
 SUPABASE_REST_URL=https://<your-project-ref>.supabase.co/rest/v1
-SUPABASE_ANON_KEY=eyJhbGciOi...REPLACE_ME
-OPENAI_API_KEY=.....REPLACE_ME
+SUPABASE_ANON_KEY=<YOUR_SUPABASE_ANON_KEY>
+OPENAI_API_KEY=<YOUR_OPENAI_API_KEY>
 
 # --- Optional overrides (sane defaults below) ---
 OPENAI_MODEL=gpt-4o-mini

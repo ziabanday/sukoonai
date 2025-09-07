@@ -187,7 +187,7 @@ GET /v1/search/vector
 **Prereqs (.env)**
 ```
 SUPABASE_REST_URL=https://<your-project-ref>.supabase.co/rest/v1
-SUPABASE_ANON_KEY=eyJhbGciOi...   # never commit real keys
+SUPABASE_ANON_KEY=<YOUR_SUPABASE_ANON_KEY>   # never commit real keys
 OPENAI_API_KEY=<YOUR_OPENAI_API_KEY>            # required for live embedding calls
 # optional overrides:
 # EMBEDDING_MODEL=text-embedding-3-small
