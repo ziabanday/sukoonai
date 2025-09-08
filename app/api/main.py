@@ -5,12 +5,15 @@ import re
 import json
 import math
 import urllib.parse
-from typing import Any, Dict, List, Optional
+import time
+from time import perf_counter
+from typing import Any, Dict, List, Optional, Literal
 from pathlib import Path
+from uuid import uuid4
 
 import httpx
-from fastapi import FastAPI, HTTPException, Query
-from pydantic import BaseModel
+from fastapi import FastAPI, HTTPException, Query, Header, Response
+from pydantic import BaseModel, Field, ConfigDict
 
 # Ensure .env is loaded early (before reading env vars)
 from dotenv import load_dotenv
@@ -22,9 +25,43 @@ try:
 except Exception:
     yaml = None
 
-app = FastAPI(title="SukoonAI API")
+# Chat-3: agent graph entrypoint + response schema
+from packages.agent.graph import run_graph
+from packages.agent.state import Result
 
-# --- ENV & Supabase helpers ---------------------------------------------------
+# --- OpenAPI tags metadata ----------------------------------------------------
+tags_metadata = [
+    {
+        "name": "agent",
+        "description": "Ask the SukoonAI agent (LangGraph: plan → rag → guard → compose).",
+    }
+]
+
+app = FastAPI(
+    title="SukoonAI API",
+    openapi_tags=tags_metadata,
+)
+
+# ------------------------ startup: crisis terms -------------------------------
+
+def _load_crisis_terms() -> set[str]:
+    # app/api/main.py -> parents[2] = repo root
+    root = Path(__file__).resolve().parents[2]
+    path = root / "packages" / "agent" / "crisis_terms.txt"
+    if not path.exists():
+        return set()
+    # keep API-layer IO only; nodes remain pure
+    terms: set[str] = set()
+    for line in path.read_text(encoding="utf-8").splitlines():
+        t = line.strip().lower()
+        if t:
+            terms.add(t)
+    return terms
+
+CRISIS_TERMS: set[str] = _load_crisis_terms()
+
+# ------------------------ ENV & Supabase helpers ------------------------------
+
 SUPABASE_REST_URL = os.getenv("SUPABASE_REST_URL", "").rstrip("/")
 SUPABASE_ANON_KEY = os.getenv("SUPABASE_ANON_KEY", "")
 SUPABASE_SERVICE_ROLE_KEY = os.getenv("SUPABASE_SERVICE_ROLE_KEY", "")
@@ -73,14 +110,11 @@ async def _post_json(url: str, payload: Any, headers: Dict[str, str]) -> Any:
     async with httpx.AsyncClient(timeout=60.0) as client:
         r = await client.post(url, headers=headers, json=payload)
         if r.status_code >= 400:
-            # fixed minor bug here (detail=r.text)
             raise HTTPException(status_code=r.status_code, detail=r.text)
-        # PostgREST upsert returns inserted rows if "return=representation" is used.
-        # Here we don't strictly need them; you can add "?return=representation".
         return r.json() if r.text else {}
 
+# --- Agent config loader (profile, policies, assessments, interventions) ------
 
-# --- Agent config loader (profile, policies, assessments, interventions) -------
 class AgentConfigCache:
     def __init__(self, root: Path):
         self.root = root
@@ -141,6 +175,7 @@ class AgentConfigCache:
 AGENT = AgentConfigCache(AGENT_DIR)
 
 # --- Health -------------------------------------------------------------------
+
 @app.get("/health")
 async def health():
     return {
@@ -151,6 +186,7 @@ async def health():
     }
 
 # --- DEBUG: show what env the server actually loaded --------------------------
+
 @app.get("/debug/sb")
 def debug_sb():
     anon = os.getenv("SUPABASE_ANON_KEY", "")
@@ -161,10 +197,8 @@ def debug_sb():
         "srv_len": len(srv),  "srv_prefix": srv[:12],
     }
 
+# --- Agent config (read-only) -------------------------------------------------
 
-# --- Agent config (read-only) --------------------------------------------------
-# Example: GET /agent/config
-#          GET /agent/config?reload=1  -> force reload from disk
 @app.get("/agent/config")
 async def agent_config(reload: int = 0):
     try:
@@ -181,9 +215,8 @@ async def agent_config(reload: int = 0):
     except Exception as e:
         raise HTTPException(500, f"Agent config error: {e}")
 
-
 # --- Existing: Conditions search (kept for parity) ----------------------------
-# Example: GET /db/conditions/search?q=dep&limit=5
+
 @app.get("/db/conditions/search")
 async def search_conditions(q: str = Query(""), limit: int = Query(10, ge=1, le=50)):
     """
@@ -201,9 +234,8 @@ async def search_conditions(q: str = Query(""), limit: int = Query(10, ge=1, le=
     url = f"{SUPABASE_REST_URL}/conditions?{urllib.parse.urlencode(params)}"
     return await _get_json(url, _sb_headers_anon())
 
-
 # --- NEW: Symptoms search (mirrors conditions) --------------------------------
-# Example: GET /db/symptoms/search?q=sleep&limit=5
+
 @app.get("/db/symptoms/search")
 async def search_symptoms(q: str = Query(""), limit: int = Query(10, ge=1, le=50)):
     """
@@ -221,10 +253,8 @@ async def search_symptoms(q: str = Query(""), limit: int = Query(10, ge=1, le=50
     url = f"{SUPABASE_REST_URL}/symptoms?{urllib.parse.urlencode(params)}"
     return await _get_json(url, _sb_headers_anon())
 
-
 # --- NEW: Topic links lookup ---------------------------------------------------
-# Example: GET /db/topic-links?entity_type=condition&entity_id=depression
-# Optional: &system=medlineplus
+
 @app.get("/db/topic-links")
 async def get_topic_links(
     entity_type: str = Query(..., description="e.g., 'condition' | 'symptom'"),
@@ -249,9 +279,8 @@ async def get_topic_links(
     url = f"{base}?{urllib.parse.urlencode(params)}"
     return await _get_json(url, _sb_headers_anon())
 
-
 # --- NEW: Ingest route for chunks + embeddings (server-only) ------------------
-# This route expects SERVICE_ROLE on server; do NOT call from untrusted clients.
+
 class IngestChunk(BaseModel):
     # Document-level (idempotency via source_url or external_id)
     source_url: Optional[str] = None
@@ -289,7 +318,6 @@ async def ingest_chunks(payload: IngestPayload):
 
     svc_headers = _sb_headers_service()
 
-    # Helper: upsert a single document and return its id
     async def upsert_document(item: IngestChunk) -> str:
         doc_body = {
             "source_url": item.source_url,
@@ -298,24 +326,19 @@ async def ingest_chunks(payload: IngestPayload):
             "lang": item.lang,
             "org_id": item.org_id,
         }
-        # Remove Nones (PostgREST handles nulls, but we keep it tidy)
         doc_body = {k: v for k, v in doc_body.items() if v is not None}
 
-        # Choose unique column for on_conflict based on what we have
         if "external_id" in doc_body:
             on_conflict = "external_id"
         elif "source_url" in doc_body:
             on_conflict = "source_url"
         else:
-            # Fall back to creating a new doc row each time (not ideal)
             on_conflict = "id"
 
         url = f"{SUPABASE_REST_URL}/documents?on_conflict={on_conflict}&return=representation"
         out = await _post_json(url, [doc_body], svc_headers)
-        # Return inserted/merged id
         return out[0]["id"]
 
-    # Helper: upsert chunk and (optionally) its embedding
     async def upsert_chunk_and_embedding(doc_id: str, item: IngestChunk):
         chunk_body = {
             "doc_id": doc_id,
@@ -336,17 +359,16 @@ async def ingest_chunks(payload: IngestPayload):
         return {"chunk_id": chunk_id}
 
     results: List[Dict[str, Any]] = []
-    # Simple pass: upsert doc per item; PostgREST merge keeps it idempotent.
     for item in payload.items:
         doc_id = await upsert_document(item)
         res = await upsert_chunk_and_embedding(doc_id, item)
         results.append(res)
     return {"status": "ok", "inserted": results}
 
-
 # ================================ Chat-2 ======================================
 # A) Retrieval API (Vector Search)
 # ------------------------------------------------------------------------------
+
 class DocumentInfo(BaseModel):
     title: Optional[str] = None
     source_url: Optional[str] = None
@@ -372,11 +394,9 @@ def _bold_keywords(text: str, query: str) -> str:
     if not text or not query:
         return text
     out = text
-    # Tokenize q into alphanumeric terms (min length 3 to reduce noise)
     terms = [t for t in re.findall(r"[A-Za-z0-9]+", query) if len(t) >= 3]
     if not terms:
         return out
-    # Replace each term with **term** (case-insensitive)
     for t in sorted(set(terms), key=len, reverse=True):
         pattern = re.compile(re.escape(t), re.IGNORECASE)
         out = pattern.sub(lambda m: f"**{m.group(0)}**", out)
@@ -391,7 +411,6 @@ def _make_snippet(content: str, query: str, max_len: int = 480) -> str:
     if len(text) <= max_len:
         return _bold_keywords(text, query)
 
-    # Find a window around the first occurrence
     terms = [t for t in re.findall(r"[A-Za-z0-9]+", query) if len(t) >= 3]
     idx = -1
     for t in terms:
@@ -400,7 +419,6 @@ def _make_snippet(content: str, query: str, max_len: int = 480) -> str:
             idx = i
             break
     if idx == -1:
-        # No term found, just head slice
         snippet = text[:max_len]
         return _bold_keywords(snippet + "…", query)
 
@@ -411,7 +429,6 @@ def _make_snippet(content: str, query: str, max_len: int = 480) -> str:
     prefix = "…" if start > 0 else ""
     suffix = "…" if end < len(text) else ""
     return _bold_keywords(prefix + snippet + suffix, query)
-
 
 async def _embed_text(q: str) -> List[float]:
     """
@@ -430,7 +447,6 @@ async def _embed_text(q: str) -> List[float]:
         async with httpx.AsyncClient(timeout=OPENAI_TIMEOUT_SECS) as client:
             r = await client.post(url, headers=headers, json=payload)
         if r.status_code >= 400:
-            # Bubble up as 502 because upstream failed
             raise HTTPException(502, f"OpenAI error: {r.text}")
         data = r.json()
         vec = data["data"][0]["embedding"]
@@ -441,7 +457,6 @@ async def _embed_text(q: str) -> List[float]:
         raise
     except Exception as e:
         raise HTTPException(502, f"OpenAI error: {e}")
-
 
 def _parse_doc_filters(raw: Optional[str]) -> Dict[str, Optional[str]]:
     """
@@ -460,9 +475,7 @@ def _parse_doc_filters(raw: Optional[str]) -> Dict[str, Optional[str]]:
             "title": obj.get("title") or obj.get("title_substring"),
         }
     except Exception:
-        # Ignore parse errors; treat as no filters
         return {"source_url": None, "external_id": None, "title": None}
-
 
 @app.get("/v1/search/vector")
 async def search_vector(
@@ -474,21 +487,14 @@ async def search_vector(
 ) -> List[VectorHit]:
     """
     Vector search over chunk_embeddings via Supabase PostgREST RPC.
-    Returns list of hits in stable shape:
-    [{"score":0.78,"content":"...","ord":3,"document":{"title":"...","source_url":"...","external_id":"..."}}]
+    Returns list of hits in stable shape.
     """
     if not SUPABASE_REST_URL:
         raise HTTPException(500, "SUPABASE_REST_URL not configured")
-    # Clamp k to 1..20 for MVP
     k_eff = max(1, min(20, int(k)))
-
-    # 1) Embed the query
     embedding = await _embed_text(q)
-
-    # 2) Parse doc filters
     filters = _parse_doc_filters(doc_filters)
 
-    # 3) Call RPC function match_chunks (defined in SQL block)
     rpc_url = f"{SUPABASE_REST_URL}/rpc/match_chunks"
     payload = {
         "query_embedding": embedding,
@@ -502,15 +508,12 @@ async def search_vector(
     try:
         rows = await _post_json(rpc_url, payload, _sb_headers_anon())
     except HTTPException:
-        # Propagate PostgREST errors as-is
         raise
     except Exception as e:
         raise HTTPException(502, f"Search backend error: {e}")
 
-    # 4) Transform/format
     hits: List[VectorHit] = []
     for r in rows or []:
-        # r keys: score, content, ord, title, source_url, external_id
         snippet = _make_snippet(r.get("content", ""), q, max_len=480)
         hit = VectorHit(
             score=float(r.get("score", 0.0)),
@@ -524,6 +527,100 @@ async def search_vector(
         )
         hits.append(hit)
 
-    # Sort by score desc just in case RPC ties/ordering vary slightly
     hits.sort(key=lambda h: h.score, reverse=True)
     return [h.model_dump() for h in hits]
+
+# ================================ Chat-3 ======================================
+# B) Agent ask endpoint (deterministic scaffold: plan → rag → guard → compose)
+# ------------------------------------------------------------------------------
+
+class AskPayload(BaseModel):
+    model_config = ConfigDict(extra="forbid")
+    org_id: str = Field(..., examples=["demo"])
+    user_id: str = Field(..., examples=["u1"])
+    q: str = Field(..., min_length=1, examples=["What is sleep hygiene?"])
+
+Confidence = Literal["low", "med", "high"]  # for type hints in this file
+
+def _dedupe_preserve_order(items: list[str]) -> list[str]:
+    seen: set[str] = set()
+    out: list[str] = []
+    for x in items:
+        if x not in seen:
+            seen.add(x)
+            out.append(x)
+    return out
+
+@app.post(
+    "/v1/agent/ask",
+    response_model=Result,
+    tags=["agent"],
+    summary="Ask the SukoonAI agent",
+    description=(
+        "Runs the deterministic LangGraph (plan→rag→guard→compose). "
+        "Returns bilingual English → Roman Urdu, numbered citations, and confidence='low'."
+    ),
+)
+def ask_agent(
+    payload: AskPayload,
+    response: Response,
+    x_client_request_id: Optional[str] = Header(default=None, alias="x-client-request-id"),
+) -> Result:
+    """
+    Deterministic path:
+    - Inject crisis terms and optional trace_id in notes (API layer)
+    - Run graph
+    - De-dupe sources preserving order
+    - Set headers: x-cost-ms (+ echo x-request-id if provided)
+    """
+    start = perf_counter()
+
+    # Build initial state (notes stay small & deterministic)
+    notes: dict[str, Any] = {"crisis_terms": CRISIS_TERMS}
+    # Optional trace_id (API can use time/uuid; nodes never do)
+    notes["trace_id"] = str(uuid4())
+
+    state_in: dict[str, Any] = {
+        "org_id": payload.org_id,
+        "user_id": payload.user_id,
+        "q": payload.q,
+        "notes": notes,
+    }
+
+    state_out: dict[str, Any] = run_graph(state_in)
+
+    # Ensure sources are clean & ordered (idempotent)
+    sources: list[str] = _dedupe_preserve_order(list(state_out.get("sources") or []))
+    state_out["sources"] = sources
+
+    # Headers
+    ms = int((perf_counter() - start) * 1000)
+    response.headers["x-cost-ms"] = str(ms)
+    if x_client_request_id:
+        response.headers["x-request-id"] = x_client_request_id
+
+    # Conform to Result model
+    result = Result(
+        answer=state_out.get("answer", ""),
+        sources=sources,
+        confidence=state_out.get("confidence", "low"),  # default low per DoD
+        cost_ms=ms,
+        tokens=int(state_out.get("tokens") or 0),
+    )
+    return result
+
+# ------------------------ optional debug routes -------------------------------
+
+DEBUG_ROUTES = os.getenv("DEBUG_ROUTES", "0") in {"1", "true", "True"}
+
+if DEBUG_ROUTES:
+    @app.get("/__routes__", include_in_schema=False)
+    def __routes__():
+        return [getattr(r, "path", None) for r in app.routes if hasattr(r, "path")]
+
+    class AskMin(BaseModel):
+        q: str | None = None
+
+    @app.post("/v1/agent/ask/min", tags=["agent"], summary="Minimal ask (debug)", include_in_schema=False)
+    def ask_min(payload: AskMin):
+        return {"ok": True, "q": payload.q}

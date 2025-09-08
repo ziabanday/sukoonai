@@ -1,149 +1,206 @@
+# packages/agent/nodes.py
 from __future__ import annotations
-import os
-import time
-import uuid
-from functools import wraps
-from typing import Callable, Iterable, List
 
-from .state import AgentState
+from typing import Any, Literal, TypedDict, NotRequired
 
 
-# ---------------- decorators (budget/retry stubs) ----------------
-def with_timeout(timeout_ms: int) -> Callable:
-    """Lightweight budget guard (stub for now)."""
-    def deco(fn: Callable) -> Callable:
-        @wraps(fn)
-        def wrapper(*args, **kwargs):
-            start = time.perf_counter()
-            result = fn(*args, **kwargs)
-            elapsed_ms = int((time.perf_counter() - start) * 1000)
-            if elapsed_ms > timeout_ms:
-                raise TimeoutError(f"{fn.__name__} exceeded {timeout_ms}ms (took {elapsed_ms}ms)")
-            return result
-        return wrapper
-    return deco
+Confidence = Literal["low", "med", "high"]
 
 
-def with_backoff(retries: int = 0) -> Callable:
-    """Deterministic stub retry (no sleep/jitter)."""
-    def deco(fn: Callable) -> Callable:
-        @wraps(fn)
-        def wrapper(*args, **kwargs):
-            attempts = max(1, retries + 1)
-            last_exc = None
-            for _ in range(attempts):
-                try:
-                    return fn(*args, **kwargs)
-                except Exception as exc:  # pragma: no cover (not expected in stub)
-                    last_exc = exc
-            raise last_exc
-        return wrapper
-    return deco
+class AgentState(TypedDict, total=False):
+    """
+    Minimal, node-local view of the state used by the LangGraph pipeline.
+
+    NOTE: Nodes remain PURE. No IO, no randomness, no time/uuid usage here.
+    The API layer (Task B) is responsible for injecting crisis_terms and trace_id.
+    """
+    org_id: str
+    user_id: str
+    q: str  # user query
+    plan: NotRequired[str]
+    sources: NotRequired[list[str]]
+    notes: NotRequired[dict[str, Any]]
+    answer: NotRequired[str]
+    confidence: NotRequired[Confidence]
+    tokens: NotRequired[int]
 
 
-# ---------------- helpers ----------------
-def _load_crisis_terms() -> List[str]:
-    here = os.path.dirname(__file__)
-    path = os.path.join(here, "crisis_terms.txt")
-    fallback = ["suicide", "self harm", "kill myself"]
-    try:
-        with open(path, "r", encoding="utf-8") as f:
-            terms = [ln.strip() for ln in f if ln.strip()]
-            return terms or fallback
-    except FileNotFoundError:
-        return fallback
+# ------------ helpers (pure) -------------------------------------------------
 
 
-def _format_citations(sources: Iterable[str]) -> str:
-    return ", ".join(f"[{i+1}] {src}" for i, src in enumerate(sources))
+def _normalize_query(q: str) -> str:
+    return " ".join(q.strip().split())
+
+
+def _topic_from_query(q: str) -> str:
+    # Deterministic, low-tech "topic" extraction: keep first 8 words.
+    words = _normalize_query(q).split()
+    return " ".join(words[:8]) if words else ""
+
+
+def _dedupe_preserve_order(items: list[str]) -> list[str]:
+    seen: set[str] = set()
+    out: list[str] = []
+    for x in items:
+        if x not in seen:
+            seen.add(x)
+            out.append(x)
+    return out
+
+
+def _curated_sources_for(q: str) -> list[str]:
+    """
+    Deterministic stubbed RAG: return stable-ordered sources (MedlinePlus first, WHO second).
+    No external IO, no retrieval — just curated links by simple keyword heuristics.
+    """
+    ql = q.lower()
+    # A tiny, extensible mapping. Always MedlinePlus → WHO order.
+    MEDLINEPLUS = "https://medlineplus.gov/encyclopedia.html"
+    WHO_SLEEP = "https://www.who.int/health-topics/sleep"
+    WHO_MENTAL = "https://www.who.int/health-topics/mental-health"
+    WHO_GENERAL = "https://www.who.int/"
+
+    if any(k in ql for k in ("sleep hygiene", "sleep", "insomnia")):
+        return [MEDLINEPLUS, WHO_SLEEP]
+    if any(k in ql for k in ("anxiety", "depression", "stress", "panic")):
+        return [MEDLINEPLUS, WHO_MENTAL]
+    # default, still stable
+    return [MEDLINEPLUS, WHO_GENERAL]
+
+
+def _is_crisis_text(q: str, crisis_terms: set[str] | None) -> bool:
+    """
+    Pure substring check against a lowercased set of crisis terms injected via state.notes["crisis_terms"].
+    """
+    if not crisis_terms:
+        return False
+    text = q.lower()
+    return any(term in text for term in crisis_terms)
+
+
+def _render_citations(sources: list[str]) -> str:
+    """
+    Render numbered citations ' [1][2]' in the same order as provided.
+    """
+    if not sources:
+        return ""
+    return " " + "".join(f"[{i+1}]" for i in range(len(sources)))
+
+
+def _compose_normal_answer(topic: str, sources: list[str]) -> str:
+    """
+    Deterministic, compact bilingual answer:
+    - English paragraph (citations inline as [1][2]… in the order of sources)
+    - Roman-Urdu paragraph (no transliteration randomness; fixed template)
+    """
+    citations = _render_citations(sources)
+    # English (neutral, short, non-coaching medical boundary)
+    en = (
+        f"{topic or 'This topic'}: Here’s a brief, general overview based on trusted health references"
+        f"{citations}. This is educational information only and not a medical diagnosis or treatment."
+    )
+
+    # Roman-Urdu (stable template; warm, concise)
+    ur = (
+        f"{topic or 'Is mawzuʼ'} ke baare mein mukhtasar, aam maloomat di gayi hai{citations}. "
+        "Yeh taleemi maqsad ke liye hai — yeh tibbi tashkhis ya ilaaj ka mashwara nahi hai."
+    )
+
+    return f"{en}\n\n{ur}"
+
+
+def _compose_crisis_answer() -> str:
+    """
+    Safe escalation ONLY. No coaching/coping steps. Bilingual, deterministic wording.
+    """
+    en = (
+        "I’m really sorry you’re feeling this way. If you are in immediate danger or at risk of harming "
+        "yourself or someone else, please contact local emergency services right now, or reach a suicide "
+        "prevention helpline. If you can, tell a trusted person nearby and seek urgent help from a qualified "
+        "mental health professional."
+    )
+    ur = (
+        "Mujhe afsos hai ke aap aisa mehsoos kar rahe hain. Agar foran khatra ho ya aap khud ko ya kisi "
+        "aur ko nuqsan pohanchane ka irada mehsoos kar rahe hain, to barah-e-karam foran apni ilaqai "
+        "emergency services se rabta karein, ya suicide prevention helpline ko call karein. Mumkin ho to "
+        "kisi bharosemand shaks ko foran batayein aur kisi moʼtabar mental health professional se haji imdad "
+        "hasil karein."
+    )
+    return f"{en}\n\n{ur}"
 
 
 def _estimate_tokens(s: str) -> int:
-    # simple deterministic stub (~4 chars per token)
-    return max(1, len(s) // 4)
+    # Simple deterministic estimate: ~4 chars/token
+    n = max(1, len(s) // 4)
+    return n
 
 
-# ---------------- nodes (pure; state in/out) ----------------
-@with_timeout(50)
-@with_backoff(0)
+# ------------ nodes (pure) ---------------------------------------------------
+
+
 def plan_node(state: AgentState) -> AgentState:
-    q = state.query.strip().lower()
-    if "sleep" in q:
-        plan = "Explain sleep hygiene basics; cite MedlinePlus/WHO; keep warm and brief."
-    else:
-        plan = "Provide a short wellbeing-oriented explanation; cite MedlinePlus/WHO; be supportive."
-    state.plan = plan
-    state.notes.setdefault("trace_id", str(uuid.uuid4()))  # not used in answer (keeps determinism)
-    return state
+    """
+    Build a simple, deterministic plan summary from the query.
+    """
+    q = state.get("q", "") or ""
+    topic = _topic_from_query(q)
+    plan = f"plan: analyze → retrieve → guard → compose | topic='{topic}'"
+    new_state = dict(state)
+    new_state["plan"] = plan
+    return new_state  # pure transform
 
 
-@with_timeout(50)
-@with_backoff(0)
 def rag_node(state: AgentState) -> AgentState:
     """
-    STUB ONLY: deterministic evidence + sources.
-    Real retrieval plugs in Chat-4, keeping the same interface.
+    Return curated, stable-ordered sources (MedlinePlus → WHO). No IO.
     """
-    sources = [
-        "https://medlineplus.gov/sleepdisorders.html",
-        "https://www.who.int/news-room/fact-sheets/detail/mental-health-strengthening-our-response",
-        "https://medlineplus.gov/ency/article/000801.htm",
-    ]
-    evidence = [
-        "Sleep hygiene includes consistent bed/wake times, limiting caffeine late, and a dark quiet room.",
-        "WHO emphasizes mental wellbeing practices like routine, activity, and social support.",
-        "Short daytime naps (if needed) and reduced screen time before bed can help.",
-    ]
-    state.sources = sources[:3]
-    state.evidence = evidence[:3]
-    return state
+    q = state.get("q", "") or ""
+    sources = _curated_sources_for(q)
+    new_state = dict(state)
+    new_state["sources"] = sources
+    return new_state
 
 
-@with_timeout(30)
-@with_backoff(0)
 def guard_node(state: AgentState) -> AgentState:
-    q = state.query.lower()
-    crisis_terms = _load_crisis_terms()
-    triggered = any(term in q for term in crisis_terms)
-    if triggered:
-        state.notes["crisis"] = True
-    else:
-        state.notes.pop("crisis", None)
-    return state
+    """
+    Crisis check using lowercased crisis terms set injected by API at state.notes['crisis_terms'].
+    Sets state.notes['crisis'] = True/False. Pure (no IO).
+    """
+    q = state.get("q", "") or ""
+    notes: dict[str, Any] = dict(state.get("notes") or {})
+    crisis_terms = notes.get("crisis_terms")
+    crisis = _is_crisis_text(q, crisis_terms if isinstance(crisis_terms, set) else None)
+    notes["crisis"] = bool(crisis)
+
+    new_state = dict(state)
+    new_state["notes"] = notes
+    return new_state
 
 
-@with_timeout(60)
-@with_backoff(0)
 def compose_node(state: AgentState) -> AgentState:
-    """Compose bilingual placeholder with numbered citations; confidence fixed to 'low'."""
-    cites = _format_citations(state.sources or [])
+    """
+    Compose the final bilingual answer with numbered citations preserving source order.
+    On crisis → safe escalation message; no sources are returned in the text body, but Result.sources stays consistent with DoD rules.
+    confidence is set to 'low' by default for MVP.
+    """
+    notes: dict[str, Any] = dict(state.get("notes") or {})
+    is_crisis = bool(notes.get("crisis"))
+    sources: list[str] = list(state.get("sources") or [])
+    sources = _dedupe_preserve_order(sources)  # stability + hygiene
 
-    if state.notes.get("crisis"):
-        en = (
-            "I’m really sorry you’re feeling this way. I can’t help with crisis support, "
-            "but you’re not alone—please seek immediate help from a trusted person or local "
-            "emergency services/helpline."
-        )
-        ru = (
-            "Mujhe afsos hai ke aap aisa mehsoos kar rahe hain. Main crisis mein madad nahi kar sakta, "
-            "lekin meherbani karke foran kisi bharosemand shakhs, emergency service, ya helpline se rabta karein."
-        )
-        msg = f"Answer (EN): {en}\n\nJawab (Roman Urdu): {ru}\n\nSources: {cites}"
+    if is_crisis:
+        answer = _compose_crisis_answer()
+        out_sources: list[str] = []  # no citations on crisis path
     else:
-        plan = state.plan or "Provide a brief, supportive explanation."
-        en = (
-            "Good sleep hygiene means keeping regular bed/wake times, limiting caffeine late, "
-            "reducing screens before bed, and making your room dark and quiet."
-        )
-        ru = (
-            "Behtar neend ki aadatein ka matlab hai ke roz marra aik hi waqt par sona/uthna, "
-            "der raat caffeine kam karna, sone se pehle screen time kam rakhna, "
-            "aur kamra andhera aur khamosh rakhna."
-        )
-        msg = f"Answer (EN): {en} ({plan})\n\nJawab (Roman Urdu): {ru}\n\nSources: {cites}"
+        topic = _topic_from_query(state.get("q", "") or "")
+        answer = _compose_normal_answer(topic, sources)
+        out_sources = sources
 
-    state.notes["confidence_label"] = "low"
-    state.notes["estimated_tokens"] = _estimate_tokens(msg)
-    state.notes.setdefault("trace_id", state.notes.get("trace_id"))  # keep if already set
-    state.notes["composed_answer"] = msg
-    return state
+    tokens = _estimate_tokens(answer)
+
+    new_state = dict(state)
+    new_state["answer"] = answer
+    new_state["sources"] = out_sources
+    new_state["confidence"] = "low"
+    new_state["tokens"] = tokens
+    return new_state

@@ -1,80 +1,75 @@
-﻿from __future__ import annotations
-import time
-from typing import Optional
+﻿# packages/agent/graph.py
+from __future__ import annotations
 
-from .state import AgentState, Result
+from typing import Any, Mapping
+
 from .nodes import plan_node, rag_node, guard_node, compose_node
 
 
-def _hitl_escalation_answer(state: AgentState) -> str:
-    """Deterministic escalation message (bilingual) with citations."""
-    srcs = state.sources or []
-    cites = ", ".join(f"[{i+1}] {s}" for i, s in enumerate(srcs))
-    en = (
-        "This looks like a crisis. I can’t provide crisis support here. "
-        "Please contact local emergency services or a trusted person immediately."
-    )
-    ur = (
-        "Yeh surat-e-haal imdadi lagti hai. Main yahan crisis support nahi de sakta. "
-        "Barah-e-karam foran emergency services ya kisi bharosemand shakhs se rabta karein."
-    )
-    return f"Answer (EN): {en}\n\nJawab (Roman Urdu): {ur}\n\nSources: {cites}"
+# ---------------------------- helpers (pure) ---------------------------------
 
-
-def run_graph(query: str, org_id: Optional[str] = None, user_id: Optional[str] = None) -> Result:
+def _normalize_state(state_in: Mapping[str, Any] | None) -> dict[str, Any]:
     """
-    Deterministic execution for Chat-3: plan → rag → guard → (hitl?) → compose
-    If guard marks crisis, we short-circuit to a safe escalation message.
+    Make a clean, deterministic state dict for nodes:
+    - Accept both "q" and legacy "query"; prefer "q".
+    - Ensure notes is a dict.
+    - Provide minimal defaults for org_id/user_id if absent.
     """
-    t0 = time.perf_counter()
-    state = AgentState(org_id=org_id, user_id=user_id, query=query)
+    s: dict[str, Any] = dict(state_in or {})
 
-    # Sequential, deterministic run (LangGraph integration comes later)
+    # Accept legacy "query" from older callers, convert to "q"
+    if "q" not in s and "query" in s:
+        s["q"] = s.pop("query")
+
+    # Hygiene defaults (safe for local/dev runs)
+    s.setdefault("org_id", "demo")
+    s.setdefault("user_id", "u1")
+
+    # Notes must be a dict for guard/compose to read/write flags
+    s["notes"] = dict(s.get("notes") or {})
+    return s
+
+
+# ---------------------------- public API -------------------------------------
+
+def run_graph(state_in: Mapping[str, Any]) -> dict[str, Any]:
+    """
+    Deterministic execution for Chat-3b:
+    plan → rag → guard → compose
+    Nodes are pure (no IO, no randomness). Returns a plain dict state
+    with keys like: answer, sources, confidence, tokens, notes, etc.
+    """
+    state = _normalize_state(state_in)
+
     state = plan_node(state)
     state = rag_node(state)
     state = guard_node(state)
-
-    if state.notes.get("crisis"):
-        composed = _hitl_escalation_answer(state)
-        tokens = max(1, len(composed) // 4)  # simple estimator
-        elapsed_ms = int((time.perf_counter() - t0) * 1000)
-        return Result(
-            answer=composed,
-            sources=state.sources,
-            confidence="low",
-            cost_ms=elapsed_ms,
-            tokens=tokens,
-        )
-
     state = compose_node(state)
-    composed = state.notes.get("composed_answer", "")
-    tokens = int(state.notes.get("estimated_tokens", max(1, len(composed) // 4)))
-    elapsed_ms = int((time.perf_counter() - t0) * 1000)
-    return Result(
-        answer=composed,
-        sources=state.sources,
-        confidence="low",  # fixed for Chat-3
-        cost_ms=elapsed_ms,
-        tokens=tokens,
-    )
+
+    # state now contains: answer, sources (possibly [] on crisis), confidence="low", tokens, etc.
+    return state
 
 
-# Optional: build a LangGraph object in Chat-4+ without changing the API.
+# ---------------------------- optional LangGraph ------------------------------
+# (Not required for Chat-3b; kept here to ease future migration)
+
 try:  # pragma: no cover
     from langgraph.graph import StateGraph, START, END  # type: ignore
 
     def build_langgraph():
-        graph = StateGraph(AgentState)
+        # Use dict as the state type; our nodes operate on dict[str, Any]
+        graph = StateGraph(dict)  # type: ignore[type-arg]
         graph.add_node("plan", plan_node)
         graph.add_node("rag", rag_node)
         graph.add_node("guard", guard_node)
         graph.add_node("compose", compose_node)
+
         graph.add_edge(START, "plan")
         graph.add_edge("plan", "rag")
         graph.add_edge("rag", "guard")
-        graph.add_edge("guard", "compose")  # crisis branch handled in run_graph for now
+        graph.add_edge("guard", "compose")  # crisis handling is inside compose_node
         graph.add_edge("compose", END)
         return graph
 except Exception:
-    # LangGraph is not required for Chat-3
+    # LangGraph is optional; ignore if not installed
     pass
