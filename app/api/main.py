@@ -594,7 +594,7 @@ def ask_agent(
     state_out["sources"] = sources
 
     # Headers
-    ms = int((perf_counter() - start) * 1000)
+    ms = max(1, int((perf_counter() - start) * 1000))
     response.headers["x-cost-ms"] = str(ms)
     if x_client_request_id:
         response.headers["x-request-id"] = x_client_request_id
